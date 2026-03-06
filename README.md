@@ -166,12 +166,11 @@ if (layer == 1) {
 } else if (layer > 1) {
     for (int i = indexList.get(0); i < 2; i++) {
         if (type == Type.PARENT) {
-            ForkNode x = generateNextForkNode().setIndex(0, i);
-            x.start();
+            ForkNode y = generateNextForkNode().setIndex(0, i);
+            y.start();
         }
         if (type == Type.CHILD) {
-            ForkNode y = generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT);
-            y.start();
+            generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT).start();
             setType(Type.PARENT);
         }
     }
@@ -196,12 +195,11 @@ for (i = 0; i < 3; i++) {
 ```java
 for (int i = indexList.get(0); i < 3; i++) {
     if (type == Type.PARENT) {
-        ForkNode x = generateNextForkNode().setIndex(0, i);
-        x.start();
+        ForkNode y = generateNextForkNode().setIndex(0, i);
+        y.start();
     }
     if (type == Type.CHILD) {
-        ForkNode y = generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT);
-        y.start();
+        generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT).start();
         setType(Type.PARENT);
     }
 }
@@ -225,8 +223,8 @@ if (layer == 1) {
 }
 
 if (layer <= 2 && pid != 3) {
-    ForkNode x = generateNextForkNode();
-    x.start();
+    ForkNode y = generateNextForkNode();
+    y.start();
 }
 ```
 
@@ -252,7 +250,7 @@ if (layer == 1) {
 }
 
 if (type == Type.CHILD) {
-    ForkNode x = generateNextForkNode().setType(Type.PARENT);
-    x.start();
+    ForkNode y = generateNextForkNode().setType(Type.PARENT);
+    y.start();
 }
 ```
