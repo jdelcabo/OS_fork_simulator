@@ -14,6 +14,8 @@ public class UserInterface {
             System.out.print("Enter an integer number to finish the program: ");
             if (input.hasNextInt()) {
                 break;
+            } else {
+                input.nextLine();
             }
             System.out.println(System.lineSeparator());
         }
