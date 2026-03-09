@@ -254,3 +254,88 @@ if (type == Type.CHILD) {
     y.start();
 }
 ```
+### Example 5 – Conditional fork (continue/break version) inside a loop (4 processes)
+
+Both versions below create 4 processes in total.
+
+**Raw fork() version**
+
+```java
+x = fork();
+
+if (x == 0) {
+
+    for (i = 0; i < 2; i++) {
+        x = fork();
+        if (x == 0) {
+            continue;
+        } else {
+            break;
+        }
+    }
+
+}
+```
+**Simulator version (inside `ForkNode.run()`)**
+
+```java
+if (layer == 1) {
+    ForkNode x = generateNextForkNode().setType(Type.PARENT);
+    x.start();
+} else if (layer > 1) {
+    for (int i = indexList.get(0); i < 2; i++) {
+        if (type == Type.PARENT) {
+            ForkNode x = generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT);
+            x.start();
+        }
+        if (type == Type.CHILD) {
+            continue;
+        } else {
+            break;
+        }
+    }
+}
+```
+### Example 6 – Conditional fork with break inside a loop (8 processes)
+
+Both versions below create 8 processes in total.
+
+**Raw fork() version**
+
+```java
+x = fork();
+
+if (x == 0) {
+
+    for (i = 0; i < 2; i++) {
+        x = fork();
+        if (x == 0) {
+            continue;
+        } else {
+            fork();
+        }
+    }
+
+}
+```
+**Simulator version (inside `ForkNode.run()`)**
+
+```java
+if (layer == 1) {
+    ForkNode x = generateNextForkNode().setType(Type.PARENT);
+    x.start();
+} else if (layer > 1) {
+    for (int i = indexList.get(0); i < 2; i++) {
+        if (type == Type.PARENT) {
+            ForkNode x = generateNextForkNode().setIndex(0, i);
+            x.start();
+        }
+        if (type == Type.PARENT) {
+            generateNextForkNode().setIndex(0, i+1).setType(Type.PARENT).start();
+            setType(Type.PARENT);
+        } else {
+            break;
+        }
+    }
+}
+```
